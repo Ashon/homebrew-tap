@@ -7,10 +7,16 @@ https://supragnosis.dev/ (source: https://github.com/Ashon/supragnosis)
 
 ```sh
 brew tap ashon/tap
-brew install supragnosis            # daemon / CLI (prebuilt binary)
-brew services start supragnosis     # always-on daemon: MCP http://127.0.0.1:7373/mcp
-                                    # + viewer socket ~/.supragnosis/viz.sock
+brew install supragnosis                # desktop app (macOS) - pulls the server formula with it
+brew install supragnosis-server         # server / CLI only (macOS / Linux, prebuilt binary)
+brew services start supragnosis-server  # always-on daemon: MCP http://127.0.0.1:7373/mcp
+                                        # + viewer socket ~/.supragnosis/viz.sock
 ```
+
+The installed binary is named `supragnosis` either way - only the brew tokens differ.
+`supragnosis` is the desktop-app cask; it depends on the `supragnosis-server` formula,
+and the app attaches to the brew-managed daemon on PATH (no bundled sidecar), so a
+single `brew upgrade` moves the server and the app together.
 
 Register with an MCP client, e.g. Claude Code:
 
@@ -18,11 +24,18 @@ Register with an MCP client, e.g. Claude Code:
 claude mcp add supragnosis --transport http http://127.0.0.1:7373/mcp
 ```
 
-## Desktop app (cask)
+## Migrating from the old tokens
 
-`brew install --cask supragnosis-app` ships with the first release that attaches the
-signed universal .app bundle (the cask depends on the formula above - the app attaches
-to the brew-managed daemon).
+Before 2026-07-24 the formula was `supragnosis` and the cask was `supragnosis-app`.
+Reinstall under the new names:
+
+```sh
+brew uninstall --cask supragnosis-app 2>/dev/null; brew uninstall --formula supragnosis 2>/dev/null
+brew update && brew install supragnosis
+```
+
+(No `formula_renames.json` on purpose: mapping the old plain formula token would make
+brew resolve `supragnosis` back to a formula and defeat the cask takeover of the name.)
 
 ## Notes
 
