@@ -15,8 +15,16 @@ brew services start supragnosis-server  # always-on daemon: MCP http://127.0.0.1
 
 The installed binary is named `supragnosis` either way - only the brew tokens differ.
 `supragnosis` is the desktop-app cask; it depends on the `supragnosis-server` formula,
-and the app attaches to the brew-managed daemon on PATH (no bundled sidecar), so a
-single `brew upgrade` moves the server and the app together.
+and the app attaches to the brew-managed daemon on PATH (no bundled sidecar).
+
+Upgrading takes two commands - `brew upgrade` swaps the binaries and relaunches the
+app, but it does not restart a running daemon (the formula caveats print the same
+reminder). Without the restart the old daemon keeps running from the deleted keg:
+
+```sh
+brew upgrade
+brew services restart supragnosis-server
+```
 
 Register with an MCP client, e.g. Claude Code:
 
@@ -27,9 +35,11 @@ claude mcp add supragnosis --transport http http://127.0.0.1:7373/mcp
 ## Migrating from the old tokens
 
 Before 2026-07-24 the formula was `supragnosis` and the cask was `supragnosis-app`.
-Reinstall under the new names:
+Reinstall under the new names. Stopping the service comes before uninstall - brew
+uninstall does not stop a running service or remove its launchd plist:
 
 ```sh
+brew services stop supragnosis 2>/dev/null
 brew uninstall --cask supragnosis-app 2>/dev/null; brew uninstall --formula supragnosis 2>/dev/null
 brew update && brew install supragnosis
 ```
