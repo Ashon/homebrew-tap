@@ -6,22 +6,22 @@
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.1.14"
+  version "0.1.15"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "e8034cccc35c2fa2f6b4c3a749d26f22d75dd6091d28c92edaac25b668a2e00d"
+      sha256 "7a2fc5f7d2ca9df108c38277d7534ef175500f9b03893249a2630ed03785abe8"
     else
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "173f6ba0c1e0ccbd29c6ec4f91a5486649e8a401a8dd4ae45b15b67118dd9ff0"
+      sha256 "2231312c9222a33b09440fd2f93dc061b7bba7509284cea10f5277e3e0eca4e2"
     end
   end
 
   on_linux do
     url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "7aeb9a881a68e29ad75561f010a4a2a15110de02f9ece5c241bb9b9b1cd1e0c6"
+    sha256 "5f03f2641318318e66afc6852b5d9b2f4094e23bf363248a86119ac7c6cb088e"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
