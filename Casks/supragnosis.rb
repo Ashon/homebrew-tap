@@ -5,8 +5,8 @@
 # The shell attaches to (or spawns) the daemon from the supragnosis-server formula found on
 # PATH, so the app bundle carries no sidecar binary.
 cask "supragnosis" do
-  version "0.1.19"
-  sha256 "1bc4024a2b45bd11e07cbd97820a2d9df1df89b6b54daf24854ef4b22abfe2ed"
+  version "0.1.20"
+  sha256 "507e6f4a39a439e7b4b9f3df5e07dad20cf8c42503ff21ac4b8f4fd43671727d"
 
   url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-universal.app.zip"
   name "Supragnosis"
