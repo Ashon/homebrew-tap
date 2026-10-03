@@ -1,27 +1,28 @@
 # supragnosis server/CLI formula (prebuilt release binaries; keyword + hashing search -
 # build from source with --features fastembed for local semantic search).
-# Lives in the tap repo as Formula/supragnosis-server.rb; update-tap.sh rewrites version/sha256
-# per release from this template. Installs the plain `supragnosis` binary - only the brew token
-# carries the -server suffix (the desktop-app cask owns the plain `supragnosis` token).
+# The tap's Formula/supragnosis-server.rb is rendered from this template by update-tap.sh on every
+# release (version and sha256 filled in), so edit it here, never in the tap. Installs the plain
+# `supragnosis` binary - only the brew token carries the -server suffix (the desktop-app cask owns
+# the plain `supragnosis` token).
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.4.2"
+  version "0.4.3"
   license any_of: ["MIT", "Apache-2.0"]
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "707aa416d57addd1024ea26b583ae03b5beb4ac67dd1fbaba449ea49a82ab1a8"
+      sha256 "8a11cf2d0093978717bbc19f7a5bf65bd00bb4f63f063468e5977b6598e2a6ce"
     else
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "79ddc472068307fd87e6463296bbe42d160665080da74e9f63328fa44edd756b"
+      sha256 "0344f2f32b5a7334acd3d5a48903cd19275a7d3dd98542d127938e91e292eb23"
     end
   end
 
   on_linux do
     url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "832988bf3a18662de8c38eee29054f57c92c5000d8d7fce15fa1cdc49a9b588f"
+    sha256 "e8373ad06cfcf8464af6f3100eb5dbcec21ec581977f72be2e4f20a2d876ff00"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
@@ -40,14 +41,24 @@ class SupragnosisServer < Formula
     end
   end
 
-  # brew services start supragnosis-server
-  # `serve --http` also brings up the viewer unix socket at ~/.supragnosis/viz.sock by
-  # default, which is what the desktop app (cask supragnosis) attaches to.
-  service do
-    run [opt_bin/"supragnosis", "serve", "--http", "127.0.0.1:7373"]
-    keep_alive true
-    log_path var/"log/supragnosis.log"
-    error_log_path var/"log/supragnosis.err.log"
+  # No `service do` block, deliberately. The always-on daemon has ONE manager - the canonical
+  # LaunchAgent com.supragnosis.daemon, installed by `supragnosis service install` or the desktop
+  # app's Start at Login (docs/daemon-lifecycle.md). A brew services job beside it is a second owner
+  # of a single-writer store: it fails on the lock and KeepAlive retries it forever, unreported.
+  # An existing brew services job keeps running after this upgrade; `supragnosis status` reports
+  # it and `supragnosis service install --take-over` migrates it.
+  def caveats
+    <<~EOS
+      Run the daemon now and at every login (MCP on 127.0.0.1:7373 + the viewer socket):
+        supragnosis service install
+      or turn on Start at Login in the Supragnosis app (brew install --cask supragnosis).
+
+      Coming from `brew services start supragnosis-server`:
+        supragnosis service install --take-over
+
+      After an upgrade, load the new binary into the running daemon:
+        supragnosis restart
+    EOS
   end
 
   test do

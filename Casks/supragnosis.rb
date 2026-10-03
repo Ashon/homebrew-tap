@@ -1,12 +1,12 @@
 # Desktop shell cask (signed + notarized universal .app zip from GitHub Releases - no DMG).
 # Owns the plain `supragnosis` token: `brew install supragnosis` resolves here (no formula
 # shares the name) and pulls the server formula via depends_on.
-# Lives in the tap repo as Casks/supragnosis.rb; update-tap.sh rewrites version/sha256.
+# The tap's Casks/supragnosis.rb is rendered from this template by update-tap.sh on every release.
 # The shell attaches to (or spawns) the daemon from the supragnosis-server formula found on
 # PATH, so the app bundle carries no sidecar binary.
 cask "supragnosis" do
-  version "0.4.2"
-  sha256 "328950477431568d081bfcb31922e119b2cbc14a16ac06b7e2bdcb62d6831764"
+  version "0.4.3"
+  sha256 "b28791e7b480f70e04dfa35df42059638bf4ad3c4b8cdc6ec9495cb79f85277f"
 
   url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-universal.app.zip"
   name "Supragnosis"
