@@ -7,31 +7,31 @@
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.4.7"
+  version "0.4.8"
   license any_of: ["MIT", "Apache-2.0"]
 
   # Bottles, rendered here by update-tap.sh from the ones the release built (deploy/homebrew/README.md).
   # This formula only copies a prebuilt binary, but without a bottle Homebrew treats any formula as a
   # source build and refuses to install it without an up-to-date Xcode or Command Line Tools.
   bottle do
-    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.4.7"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "848aa9b04e807f48d145357d86890e3b863cc9bf2405d4c2311e8e5b19ea8388"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "de7c3820edea0bf2fbe164497d04bdec2f2742474cea95ce82f6fc77ccb32b96"
+    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.4.8"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "5ada8f776f37103cd27d0507bcf7b85a974552c03cf1a8d99acc35dff0ef575b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "372fd06c84891fd173eac13005a8165519bf919b022028073f8e46d9f7e9e7e3"
   end
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "3a34d38e2f85b2ddd74a078b33d1f3950b1fac5db73b83b0afda8a6ac825d238"
+      sha256 "3ab3aadf2ba30bbdc2dfd5b1c5d710bbde451f4f9298efceb59f27b07ee3e0cc"
     else
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "489c4cdf46a40e1a0bce28dcda1e960e9ae42bb44b140979600016aeffc68aff"
+      sha256 "e334ff8e197a324a079db127c264caf6c8e76a32c00b2168faca092060dc7da7"
     end
   end
 
   on_linux do
     url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-    sha256 "ef52ab0f48a35ac2a09a33ea0dbd382e128954e77c00ed8f267ea9de0d85db00"
+    sha256 "3eaede1fe3de3fda279c89fa7968761641a2f2f8468002451343116c03d90e42"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
