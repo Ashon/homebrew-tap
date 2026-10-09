@@ -5,9 +5,9 @@
 cask "orbly" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.2.0"
-  sha256 arm:   "f45727186f7b2b02a9a592fed2863a82d1bf916ea0ad9eca607ea1e6f01da5d3",
-         intel: "7dfcd00bd6bf7d4e51bb62a267d790e1892ba87b9620aeeeee01a702df084921"
+  version "0.2.1"
+  sha256 arm:   "c63e6005447adabcf82cae0462dfa970bea73fbb3587255fba86b29d6eb03bc1",
+         intel: "41ed8fd2baf4344d96629b88bd09490d7926703c8d597d6ac4df4ad7b1c6f699"
 
   url "https://github.com/Ashon/orbly/releases/download/v#{version}/Orbly-v#{version}-macos-#{arch}.app.zip"
   name "Orbly"
@@ -38,8 +38,9 @@ cask "orbly" do
     Before the first mention:
       - run Docker (Docker Desktop, OrbStack or colima)
       - log in to claude or codex
-      - open Orbly, fill in the Slack tokens in Settings > Slack, then build the
-        sandbox images in Settings > Sandbox
+      - open Orbly, connect Slack in Settings > Slack (pair with your team's hub, or enter
+        your own Slack app's tokens), then build the sandbox images in Settings > Sandbox
     Config and run history are in ~/.orbly and are kept when the app is removed.
+    Coming from Verda: Orbly keeps using ~/.verda until you move it to ~/.orbly.
   EOS
 end
