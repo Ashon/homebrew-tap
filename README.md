@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | `supragnosis` | cask | supragnosis desktop app (pulls `supragnosis-server`) |
 | `supragnosis-server` | formula | supragnosis server / CLI |
-| `verda` | cask | Verda desktop app (Slack bot on local claude/codex CLIs) |
+| `orbly` | cask | Orbly desktop app (Slack bot on local claude/codex CLIs), formerly `verda` |
 
 ```sh
 brew tap ashon/tap
@@ -66,16 +66,26 @@ brew resolve `supragnosis` back to a formula and defeat the cask takeover of the
 - Release checksums come from the .sha256 sidecars published on each GitHub release;
   update-tap.sh in this repo rewrites the version/sha lines per release.
 
-## verda
+## orbly
 
-Slack bot that answers public channel mentions with your local claude or codex CLI, run in a
-Docker sandbox - https://github.com/Ashon/verda. The cask installs the signed and notarized
-Verda.app (Apple silicon or Intel, macOS 12+); the app carries the bot, so there is no formula.
+Your orbiting assistant: a Slack bot that answers mentions with your local claude or codex CLI, run in a
+Docker sandbox - https://github.com/Ashon/orbly. The cask installs the signed and notarized
+Orbly.app (Apple silicon or Intel, macOS 12+); the app carries the bot, so there is no formula.
 
 ```sh
-brew install --cask verda
-brew upgrade --cask verda     # quits the running app first (the bot finishes its requests), then reopens it
+brew install --cask orbly
+brew upgrade --cask orbly     # quits the running app first (the bot finishes its requests), then reopens it
 ```
 
-Config and run history live in `~/.verda` and are kept on upgrade and uninstall. Verda's release
-workflow renders `Casks/verda.rb` from https://github.com/Ashon/verda/tree/main/deploy/homebrew.
+Config and run history live in `~/.orbly` and are kept on upgrade and uninstall. Orbly's release
+workflow renders `Casks/orbly.rb` from https://github.com/Ashon/orbly/tree/main/deploy/homebrew.
+
+### Migrating from verda
+
+The cask was `verda` until v0.1.2. `cask_renames.json` maps it to `orbly`, so `brew update && brew upgrade`
+moves an existing install over and replaces Verda.app with Orbly.app. Orbly keeps using `~/.verda` until it
+is moved (see "Migrating from Verda" in the Orbly README). If brew keeps listing `verda`:
+
+```sh
+brew uninstall --cask verda && brew install --cask orbly
+```
