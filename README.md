@@ -1,9 +1,21 @@
-# supragnosis Homebrew tap
+# Ashon's Homebrew tap
+
+| Token | Kind | What |
+| --- | --- | --- |
+| `supragnosis` | cask | supragnosis desktop app (pulls `supragnosis-server`) |
+| `supragnosis-server` | formula | supragnosis server / CLI |
+| `verda` | cask | Verda desktop app (Slack bot on local claude/codex CLIs) |
+
+```sh
+brew tap ashon/tap
+```
+
+## supragnosis
 
 Embedded MCP server that grows an ontology from working knowledge -
 https://supragnosis.dev/ (source: https://github.com/Ashon/supragnosis)
 
-## Install
+### Install
 
 ```sh
 brew tap ashon/tap
@@ -32,7 +44,7 @@ Register with an MCP client, e.g. Claude Code:
 claude mcp add supragnosis --transport http http://127.0.0.1:7373/mcp
 ```
 
-## Migrating from the old tokens
+### Migrating from the old tokens
 
 Before 2026-07-24 the formula was `supragnosis` and the cask was `supragnosis-app`.
 Reinstall under the new names. Stopping the service comes before uninstall - brew
@@ -47,9 +59,23 @@ brew update && brew install supragnosis
 (No `formula_renames.json` on purpose: mapping the old plain formula token would make
 brew resolve `supragnosis` back to a formula and defeat the cask takeover of the name.)
 
-## Notes
+### Notes
 
 - The prebuilt binary uses keyword + hashing search. For local ONNX semantic search,
   build from source with `--features fastembed`.
 - Release checksums come from the .sha256 sidecars published on each GitHub release;
   update-tap.sh in this repo rewrites the version/sha lines per release.
+
+## verda
+
+Slack bot that answers public channel mentions with your local claude or codex CLI, run in a
+Docker sandbox - https://github.com/Ashon/verda. The cask installs the signed and notarized
+Verda.app (Apple silicon or Intel, macOS 12+); the app carries the bot, so there is no formula.
+
+```sh
+brew install --cask verda
+brew upgrade --cask verda     # quits the running app first (the bot finishes its requests), then reopens it
+```
+
+Config and run history live in `~/.verda` and are kept on upgrade and uninstall. Verda's release
+workflow renders `Casks/verda.rb` from https://github.com/Ashon/verda/tree/main/deploy/homebrew.
