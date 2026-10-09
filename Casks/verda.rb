@@ -5,9 +5,9 @@
 cask "verda" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.1.1"
-  sha256 arm:   "3ce46c9c7c67f62dc85bfc3db9d533a6fba964f866e44ab833fa6954fc84046e",
-         intel: "eca9d5f1083bd3ff1d00180f6bbf1744026e35d3b5a42eb1188da93afca1f81d"
+  version "0.1.2"
+  sha256 arm:   "8e809e8110e65191fb00ed23b3d046c826f750e46d22457a28d76c01f7b1d329",
+         intel: "fb71f29674471cd2204cdae308292a87c57e9c7901909554a02a9a9919f76061"
 
   url "https://github.com/Ashon/verda/releases/download/v#{version}/Verda-v#{version}-macos-#{arch}.app.zip"
   name "Verda"
