@@ -5,9 +5,9 @@
 cask "orbly" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.2.1"
-  sha256 arm:   "c63e6005447adabcf82cae0462dfa970bea73fbb3587255fba86b29d6eb03bc1",
-         intel: "41ed8fd2baf4344d96629b88bd09490d7926703c8d597d6ac4df4ad7b1c6f699"
+  version "0.2.2"
+  sha256 arm:   "6bb0dbc081ae63628a0ca6a21fa2570a145248d3f2c551c0e3a39d6a11c7c5c0",
+         intel: "6f51c6b31d0780ae2e6cbf7f6a8bd01ebcabeb9b87ad9821ee2fd998c778aef8"
 
   url "https://github.com/Ashon/orbly/releases/download/v#{version}/Orbly-v#{version}-macos-#{arch}.app.zip"
   name "Orbly"
