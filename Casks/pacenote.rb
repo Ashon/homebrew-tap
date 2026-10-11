@@ -5,9 +5,9 @@
 cask "pacenote" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.3.11"
-  sha256 arm:   "764c9ac55f58313f79618db9509e792a5c1d2f1cf90f22cd6fddfb0af3e13ce8",
-         intel: "9155cb2b49a17645ece66ee0c4ae6d05e1d39f9eded3a0a727bd3854dd8c3486"
+  version "0.3.12"
+  sha256 arm:   "a5e76e1d5d65635558b65a4a4506e1c143c98ae4112aac84c084d29a42a6a195",
+         intel: "884251dbb111df10f181583534511b953ba68f77c7d054f1e8fd8ea7bb267b72"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-#{arch}.app.zip"
   name "Pacenote"
@@ -41,6 +41,5 @@ cask "pacenote" do
       - open Pacenote, connect Slack in Settings > Messengers > Slack (pair with your team's hub, or enter
         your own Slack app's tokens), then build the sandbox images in Settings > Sandbox
     Config and run history are in ~/.pacenote and are kept when the app is removed.
-    Coming from Orbly or Verda: Pacenote keeps using ~/.orbly or ~/.verda until you move it to ~/.pacenote.
   EOS
 end
