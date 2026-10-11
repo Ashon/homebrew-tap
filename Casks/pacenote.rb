@@ -5,9 +5,9 @@
 cask "pacenote" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.3.6"
-  sha256 arm:   "14c91ba6f5e5beea9ab84a036347d2eec1442a85962a683fea1eb543803d76b4",
-         intel: "41d41c7d5e2401fe9e4fc27502086103c75dc4861d35993bd7c88c0280b93eba"
+  version "0.3.7"
+  sha256 arm:   "38198765923b2b7c70a182450347c9bee312d31d05c9d0f5d0e2df3f7522a0f1",
+         intel: "f734452cdcebee3b276d33204b2bbfbe7991c99d6ed7d59cd69e2d88ed2fa675"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-#{arch}.app.zip"
   name "Pacenote"
