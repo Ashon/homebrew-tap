@@ -5,15 +5,20 @@
 # The shell attaches to (or spawns) the daemon from the supragnosis-server formula found on
 # PATH, so the app bundle carries no sidecar binary.
 cask "supragnosis" do
-  version "0.4.11"
-  sha256 "84f6879144a55c4c148c7f3bff83f0825b6d3ba807385ba4b1b99db9035b2cee"
+  version "0.4.12"
+  sha256 "7e28cb3e3378ea44310ee2a38dde2077c2aaf569a408f64f3a27b5e1a01291ad"
 
   url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-universal.app.zip"
   name "Supragnosis"
   desc "Desktop shell for the supragnosis knowledge daemon"
   homepage "https://supragnosis.dev/"
 
+  # Both casks install Supragnosis.app, and brew checks only the conflicts the cask being installed
+  # declares, so each side names the other: brew then refuses with the conflict instead of failing
+  # on the app bundle already in /Applications.
+  conflicts_with cask: "supragnosis-dev"
   depends_on formula: "supragnosis-server"
+  depends_on :macos
 
   app "Supragnosis.app"
 
