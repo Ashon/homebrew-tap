@@ -3,12 +3,19 @@
 | Token | Kind | What |
 | --- | --- | --- |
 | `supragnosis` | cask | supragnosis desktop app (pulls `supragnosis-server`) |
+| `supragnosis-dev` | cask | supragnosis desktop app, rolling dev build |
 | `supragnosis-server` | formula | supragnosis server / CLI |
-| `orbly` | cask | Orbly desktop app (Slack bot on local claude/codex CLIs), formerly `verda` |
+| `pacenote` | cask | Pacenote desktop app (Slack bot on local claude/codex CLIs), formerly `orbly` and `verda` |
 
 ```sh
 brew tap ashon/tap
 ```
+
+The formula and casks here are rendered output: each project's release overwrites them from the
+templates in its own `deploy/homebrew` directory, so a change is made there, never in this repo.
+
+- supragnosis: https://github.com/Ashon/supragnosis/tree/main/deploy/homebrew
+- pacenote: https://github.com/Ashon/pacenote/tree/main/deploy/homebrew
 
 ## supragnosis
 
@@ -21,13 +28,17 @@ https://supragnosis.dev/ (source: https://github.com/Ashon/supragnosis)
 brew tap ashon/tap
 brew install supragnosis                # desktop app (macOS) - pulls the server formula with it
 brew install supragnosis-server         # server / CLI only (macOS / Linux, prebuilt binary)
-brew services start supragnosis-server  # always-on daemon: MCP http://127.0.0.1:7373/mcp
-                                        # + viewer socket ~/.supragnosis/viz.sock
+supragnosis service install             # always-on daemon, now and at every login:
+                                        # MCP http://127.0.0.1:7373/mcp + viewer socket ~/.supragnosis/viz.sock
 ```
 
 The installed binary is named `supragnosis` either way - only the brew tokens differ.
 `supragnosis` is the desktop-app cask; it depends on the `supragnosis-server` formula,
-and the app attaches to the brew-managed daemon on PATH (no bundled sidecar).
+and the app attaches to the brew-installed daemon on PATH (no bundled sidecar). Instead of
+`supragnosis service install`, you can turn on Start at Login in the app.
+
+The formula has no `service do` block on purpose, so `brew services` does not manage the daemon:
+it has one manager, the login job that `supragnosis service install` (or Start at Login) creates.
 
 Upgrading takes two commands - `brew upgrade` swaps the binaries and relaunches the
 app, but it does not restart a running daemon (the formula caveats print the same
@@ -35,13 +46,34 @@ reminder). Without the restart the old daemon keeps running from the deleted keg
 
 ```sh
 brew upgrade
-brew services restart supragnosis-server
+supragnosis restart
 ```
 
 Register with an MCP client, e.g. Claude Code:
 
 ```sh
 claude mcp add supragnosis --transport http http://127.0.0.1:7373/mcp
+```
+
+### Dev channel
+
+```sh
+brew install --HEAD supragnosis-server     # server built from main (rust is pulled as a build dep)
+brew uninstall --cask supragnosis && brew install --cask supragnosis-dev   # rolling dev app
+brew reinstall supragnosis-dev             # brew upgrade does not track it (version :latest)
+```
+
+`supragnosis-dev` conflicts with `supragnosis` (same app bundle). See the supragnosis
+deploy/homebrew README for swapping between stable and dev.
+
+### Migrating from brew services
+
+Before v0.4.3 the formula had a service block and this README said `brew services start
+supragnosis-server`. That job keeps running after an upgrade (`supragnosis status` names it);
+move it to the login job once:
+
+```sh
+supragnosis service install --take-over
 ```
 
 ### Migrating from the old tokens
@@ -63,29 +95,38 @@ brew resolve `supragnosis` back to a formula and defeat the cask takeover of the
 
 - The prebuilt binary uses keyword + hashing search. For local ONNX semantic search,
   build from source with `--features fastembed`.
-- Release checksums come from the .sha256 sidecars published on each GitHub release;
-  update-tap.sh in this repo rewrites the version/sha lines per release.
+- The formula ships bottles for Apple silicon on macOS 14+ (`arm64_sonoma`) and x86_64 Linux.
+  Intel Macs have none, so Homebrew takes its source-build path there and requires up-to-date
+  Command Line Tools (`xcode-select --install`), even though it only copies the prebuilt binary.
 
-## orbly
+## pacenote
 
-Your orbiting assistant: a Slack bot that answers mentions with your local claude or codex CLI, run in a
-Docker sandbox - https://github.com/Ashon/orbly. The cask installs the signed and notarized
-Orbly.app (Apple silicon or Intel, macOS 12+); the app carries the bot, so there is no formula.
+You drive, Pace reads the notes: a Slack bot that answers mentions with your local claude or codex CLI,
+run in a Docker sandbox - https://github.com/Ashon/pacenote. The cask installs the signed and notarized
+Pacenote.app (Apple silicon or Intel, macOS 12+); the app carries the bot, so there is no formula.
 
 ```sh
-brew install --cask orbly
-brew upgrade --cask orbly     # quits the running app first (the bot finishes its requests), then reopens it
+brew install --cask pacenote
+brew upgrade --cask pacenote     # quits the running app first (the bot finishes its requests), then reopens it
 ```
 
-Config and run history live in `~/.orbly` and are kept on upgrade and uninstall. Orbly's release
-workflow renders `Casks/orbly.rb` from https://github.com/Ashon/orbly/tree/main/deploy/homebrew.
+The cask caveats list the first-run steps (Docker, claude/codex login, Slack, sandbox images).
+Config, run history and the sandbox allowlist live in `~/.pacenote` and are kept on upgrade and
+uninstall; `--zap` removes the app's Library folders, still not `~/.pacenote`.
 
-### Migrating from verda
+### Migrating from orbly / verda
 
-The cask was `verda` until v0.1.2. `cask_renames.json` maps it to `orbly`, so `brew update && brew upgrade`
-moves an existing install over and replaces Verda.app with Orbly.app. Orbly keeps using `~/.verda` until it
-is moved (see "Migrating from Verda" in the Orbly README). If brew keeps listing `verda`:
+The cask was `verda` until v0.1.2 and `orbly` until v0.2.2. `cask_renames.json` maps both to `pacenote`,
+so `brew update && brew upgrade` moves an existing install over to Pacenote.app. If brew keeps listing
+the old token:
 
 ```sh
-brew uninstall --cask verda && brew install --cask orbly
+brew uninstall --cask orbly && brew install --cask pacenote   # or verda
+```
+
+Since v0.3.12 Pacenote reads nothing from before the renames. If your settings are still in `~/.orbly`
+or `~/.verda`, move them and rename the `ORBLY_*` / `VERDA_*` keys in `~/.pacenote/.env` to `PACENOTE_*`:
+
+```sh
+mv ~/.orbly ~/.pacenote   # or ~/.verda
 ```
