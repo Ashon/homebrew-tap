@@ -5,13 +5,13 @@
 cask "pacenote" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.4.6"
-  sha256 arm:   "b45dad1e359a2c75d3c8255e71db46f208a62e98dec6932a6ee80831d7374caf",
-         intel: "a83240cde4e71878af95c23527bf790a23300438531079e23de8bc9c61c69d8d"
+  version "0.4.7"
+  sha256 arm:   "1c01c83b9c165d778cc3565ef9b2b5946d3ecaa62f27c7a9c0be955b950294cd",
+         intel: "7343e547fc575664c9bef91a861b50ed9ebda0d50a2e70e9096c965c04ed172f"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-#{arch}.app.zip"
   name "Pacenote"
-  desc "Slack bot that answers mentions with local claude or codex CLIs in a sandbox"
+  desc "Slack bot that answers mentions with local claude or codex CLIs"
   homepage "https://github.com/Ashon/pacenote"
 
   # Electron 38 and later need macOS 12.
@@ -34,12 +34,14 @@ cask "pacenote" do
   ]
 
   caveats <<~EOS
-    Pacenote runs each answer in a Docker sandbox and uses your local claude or codex CLI login.
+    Pacenote answers your Slack mentions with your local claude or codex CLI login.
     Before the first mention:
-      - run Docker (Docker Desktop, OrbStack or colima)
-      - log in to claude or codex
-      - open Pacenote, connect Slack in Settings > Messengers > Slack (pair with your team's hub, or enter
-        your own Slack app's tokens), then build the sandbox images in Settings > Sandbox
+      - log in to claude or codex (codex 0.138 or later)
+      - open Pacenote and connect Slack in Settings > Messengers > Slack: pair with your team's hub,
+        or create your own Slack app from there and save its tokens
+      - with your own app, add your Slack member ID under Who can ask
+    Answers run on this Mac by default, reading only the reference directory you set. For a Docker
+    sandbox, run Docker, choose it in Settings > Sandbox and build its images there.
     Config and run history are in ~/.pacenote and are kept when the app is removed.
   EOS
 end
