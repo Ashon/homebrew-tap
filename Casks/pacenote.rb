@@ -1,20 +1,18 @@
-# Pacenote desktop app cask: the signed and notarized .app zips from GitHub Releases, one per arch
-# (no DMG). The tap's Casks/pacenote.rb is rendered from this template by update-tap.sh on every
+# Pacenote desktop app cask: the signed and notarized .app zip from GitHub Releases, for Apple
+# silicon only since 0.5.7 (no DMG). The tap's Casks/pacenote.rb is rendered from this template by update-tap.sh on every
 # release (version and sha256 filled in), so edit it here, never in the tap.
 # The app bundles the bot, the sandbox jobs and Electron's Node, so it needs no formula.
 cask "pacenote" do
-  arch arm: "arm64", intel: "x64"
+  version "0.5.7"
+  sha256 "197b799f5b9a8c2df6ab1cf73f3bd1d84f0662900286e7aa7f786746fb023dd7"
 
-  version "0.5.6"
-  sha256 arm:   "992da1a28e2dee1dedd2b7b5a50ec527d98a0ba40ce6d69cba91d971ee139925",
-         intel: "c7579148feadd5bed9aa1b0d10897c2326c501dd33e68254a9b89b51fac0949b"
-
-  url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-#{arch}.app.zip"
+  url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-arm64.app.zip"
   name "Pacenote"
   desc "Slack bot that answers mentions with local claude or codex CLIs"
   homepage "https://github.com/Ashon/pacenote"
 
-  # Electron 38 and later need macOS 12.
+  # Apple silicon only; Electron 38 and later need macOS 12.
+  depends_on arch: :arm64
   depends_on macos: :monterey
 
   app "Pacenote.app"
@@ -40,8 +38,8 @@ cask "pacenote" do
       - open Pacenote and connect Slack in Settings > Messengers > Slack: pair with your team's hub,
         or create your own Slack app from there and save its tokens
       - with your own app, add your Slack member ID under Who can ask
-    Answers run on this Mac by default, reading only the reference directory you set. On Apple
-    silicon with macOS 15, choose the built-in sandbox in Settings > Sandbox and set it up there.
+    Answers run on this Mac by default, reading only the reference directory you set. On macOS 15
+    or later, choose the built-in sandbox in Settings > Sandbox and set it up there.
     Config and run history are in ~/.pacenote and are kept when the app is removed.
   EOS
 end
