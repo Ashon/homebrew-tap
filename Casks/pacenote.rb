@@ -5,9 +5,9 @@
 cask "pacenote" do
   arch arm: "arm64", intel: "x64"
 
-  version "0.5.1"
-  sha256 arm:   "2a2df899718cd8329e2575ac073a2c066da53a5736cabd1bc8036b8a9218ebff",
-         intel: "a0bc2163be47f0726855299e6d6c2daaddb2de618830cdf5e1e3f779e0154928"
+  version "0.5.2"
+  sha256 arm:   "8b8ca41e1b2658403dce86fd6c20431c864f0a45e2a1b046b05e2e81adfd100c",
+         intel: "e57ad9b0496141cf320e203edcb04fc269918cec16b65ac0b2cf2143ab31ebd7"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-#{arch}.app.zip"
   name "Pacenote"
@@ -40,8 +40,8 @@ cask "pacenote" do
       - open Pacenote and connect Slack in Settings > Messengers > Slack: pair with your team's hub,
         or create your own Slack app from there and save its tokens
       - with your own app, add your Slack member ID under Who can ask
-    Answers run on this Mac by default, reading only the reference directory you set. For a Docker
-    sandbox, run Docker, choose it in Settings > Sandbox and build its images there.
+    Answers run on this Mac by default, reading only the reference directory you set. On Apple
+    silicon with macOS 15, choose the built-in sandbox in Settings > Sandbox and set it up there.
     Config and run history are in ~/.pacenote and are kept when the app is removed.
   EOS
 end
