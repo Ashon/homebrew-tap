@@ -3,8 +3,8 @@
 # release (version and sha256 filled in), so edit it here, never in the tap.
 # The app bundles the bot, the sandbox jobs and Electron's Node, so it needs no formula.
 cask "pacenote" do
-  version "0.5.13"
-  sha256 "813da80e96989d169841c52af710deb16b1c9f137a61baeea558e8f3e6869db4"
+  version "0.5.14"
+  sha256 "a05af104518a707194a4b95382a6ec52fbf34b322367bb02a9e9618c9d389564"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-arm64.app.zip"
   name "Pacenote"
@@ -37,7 +37,8 @@ cask "pacenote" do
       - log in to claude or codex (codex 0.138 or later)
       - open Pacenote: a first run opens on setup, from the AI service on this Mac to Pace's
         first answer, with the built-in sandbox prepared in the background (macOS 15 or later),
-        your team's hub or your own Slack app, and "@Pace it's me" to say who may ask
+        your team's hub or your own Slack app, and "@Pace it's me" to say which account is yours
+    Pace answers only you; teammates each run their own Pace through your team's hub.
     Setup can be left and picked up from Overview, or done in Settings instead.
     Config and run history are in ~/.pacenote and are kept when the app is removed.
   EOS
