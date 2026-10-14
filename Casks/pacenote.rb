@@ -3,8 +3,8 @@
 # release (version and sha256 filled in), so edit it here, never in the tap.
 # The app bundles the bot, the sandbox jobs and Electron's Node, so it needs no formula.
 cask "pacenote" do
-  version "0.5.12"
-  sha256 "da77136a621c233e4bc57535d802ab3423c9292336d59dcb465eefe8f89e0e85"
+  version "0.5.13"
+  sha256 "813da80e96989d169841c52af710deb16b1c9f137a61baeea558e8f3e6869db4"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-arm64.app.zip"
   name "Pacenote"
@@ -35,11 +35,10 @@ cask "pacenote" do
     Pacenote answers your Slack mentions with your local claude or codex CLI login.
     Before the first mention:
       - log in to claude or codex (codex 0.138 or later)
-      - open Pacenote and connect Slack in Settings > Messengers > Slack: pair with your team's hub,
-        or create your own Slack app from there and save its tokens
-      - with your own app, add your Slack member ID under Who can ask
-    Answers run on this Mac by default, reading only the reference directory you set. On macOS 15
-    or later, choose the built-in sandbox in Settings > Sandbox and set it up there.
+      - open Pacenote: a first run opens on setup, from the AI service on this Mac to Pace's
+        first answer, with the built-in sandbox prepared in the background (macOS 15 or later),
+        your team's hub or your own Slack app, and "@Pace it's me" to say who may ask
+    Setup can be left and picked up from Overview, or done in Settings instead.
     Config and run history are in ~/.pacenote and are kept when the app is removed.
   EOS
 end
