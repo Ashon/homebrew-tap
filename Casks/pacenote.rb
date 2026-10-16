@@ -3,8 +3,8 @@
 # release (version and sha256 filled in), so edit it here, never in the tap.
 # The app bundles the bot, the sandbox jobs and Electron's Node, so it needs no formula.
 cask "pacenote" do
-  version "0.5.21"
-  sha256 "e5ca1a674873d037417f6b033658c97ced511a41f9c9303c71787d153814931f"
+  version "0.5.22"
+  sha256 "4ba765d8e420d9edd06d1ceedc6bb3081e5902c730abbc2ed161775dbf1cd6ff"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-arm64.app.zip"
   name "Pacenote"
