@@ -7,16 +7,16 @@
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.5.0"
+  version "0.5.1"
   license any_of: ["MIT", "Apache-2.0"]
 
   # Bottles, rendered here by update-tap.sh from the ones the release built (deploy/homebrew/README.md).
   # This formula only copies a prebuilt binary, but without a bottle Homebrew treats any formula as a
   # source build and refuses to install it without an up-to-date Xcode or Command Line Tools.
   bottle do
-    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.5.0"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "d79b064e14147a741bd865a6afa7340f449312c6861f63cecc1febc68596c497"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "f83ab76fdb640839ad251b355d62f213d2228156223500fd26266aeddc0222e7"
+    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.5.1"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "1629a89270f18870a620eb7ab92c75d06a4556f0a1cae1209f9d29616f6b016b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "a2a8881b3c5e9e3b32ddbe63e5f4e98072e677430ae0b7e9d5fbf8b1d4315df4"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
@@ -36,18 +36,18 @@ class SupragnosisServer < Formula
     depends_on arch: :arm64
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "8cd88c7f28cbd2bbfb6c4b29c640c4dc45ba41137ee8d4fa15441b17187387f6"
+      sha256 "f0b9aec3bb4e7595b576336d1c7c0ffcb21038be0ee7e28475bce019ddb32e35"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "2f0e1562e30a768fe95a8a7bd36aca600ad074b0d633c28b38ef91b25c42f8f9"
+      sha256 "16fe517b60831bcaa2ae706e28e3f93dacb435b5b9077d844fa173450d59c1df"
     end
     on_intel do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "553f62a6857f8b39bcdeeee542807bb30ae1d31ed63c4674ea3b289232da2adf"
+      sha256 "b7c983271fc4904c6aceaf05cafa6f5d8c2bd208c60c86ab6ae945bcef825e3d"
     end
   end
 
@@ -76,6 +76,11 @@ class SupragnosisServer < Formula
 
       After an upgrade, load the new binary into the running daemon:
         supragnosis restart
+
+      Semantic retrieval needs the embedding model, fetched once (224 MB):
+        supragnosis embed fetch
+      The running daemon finds it within 30 seconds and embeds what it already holds;
+      `supragnosis status` shows the progress.
     EOS
   end
 
