@@ -1,14 +1,14 @@
-# Desktop shell cask (signed + notarized universal .app zip from GitHub Releases - no DMG).
+# Desktop shell cask (signed + notarized Apple silicon .app zip from GitHub Releases - no DMG).
 # Owns the plain `supragnosis` token: `brew install supragnosis` resolves here (no formula
 # shares the name) and pulls the server formula via depends_on.
 # The tap's Casks/supragnosis.rb is rendered from this template by update-tap.sh on every release.
 # The shell attaches to (or spawns) the daemon from the supragnosis-server formula found on
 # PATH, so the app bundle carries no sidecar binary.
 cask "supragnosis" do
-  version "0.4.12"
-  sha256 "7e28cb3e3378ea44310ee2a38dde2077c2aaf569a408f64f3a27b5e1a01291ad"
+  version "0.5.0"
+  sha256 "5689daa9618f62ee8b714d0f1828faaab83776198859375a743fc621aefbe7a5"
 
-  url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-universal.app.zip"
+  url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-arm64.app.zip"
   name "Supragnosis"
   desc "Desktop shell for the supragnosis knowledge daemon"
   homepage "https://supragnosis.dev/"
@@ -17,6 +17,7 @@ cask "supragnosis" do
   # declares, so each side names the other: brew then refuses with the conflict instead of failing
   # on the app bundle already in /Applications.
   conflicts_with cask: "supragnosis-dev"
+  depends_on arch: :arm64 # no Intel Mac build, of the app or of the server it depends on
   depends_on formula: "supragnosis-server"
   depends_on :macos
 

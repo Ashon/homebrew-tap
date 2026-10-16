@@ -1,5 +1,5 @@
-# supragnosis server/CLI formula (prebuilt release binaries; keyword + hashing search -
-# build from source with --features fastembed for local semantic search).
+# supragnosis server/CLI formula (prebuilt release binaries, with local semantic retrieval: the
+# model is fetched once by `supragnosis service install` or `supragnosis embed fetch`).
 # The tap's Formula/supragnosis-server.rb is rendered from this template by update-tap.sh on every
 # release (version and sha256 filled in), so edit it here, never in the tap. Installs the plain
 # `supragnosis` binary - only the brew token carries the -server suffix (the desktop-app cask owns
@@ -7,16 +7,16 @@
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.4.12"
+  version "0.5.0"
   license any_of: ["MIT", "Apache-2.0"]
 
   # Bottles, rendered here by update-tap.sh from the ones the release built (deploy/homebrew/README.md).
   # This formula only copies a prebuilt binary, but without a bottle Homebrew treats any formula as a
   # source build and refuses to install it without an up-to-date Xcode or Command Line Tools.
   bottle do
-    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.4.12"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "b40908b9eee3e8e360b12b0bd911c5a6415cc3733a45dc2d71efd9a0a2f17ccb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "ed145ec6105a81acdffc9aa87bfd41b1bac1792316a9a61d32a0577914251b2e"
+    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.5.0"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "d79b064e14147a741bd865a6afa7340f449312c6861f63cecc1febc68596c497"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "f83ab76fdb640839ad251b355d62f213d2228156223500fd26266aeddc0222e7"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
@@ -30,25 +30,24 @@ class SupragnosisServer < Formula
   # One release tarball per OS and arch, each named for its target triple. on_arm / on_intel, not
   # `if Hardware::CPU.arm?`: brew resolves them for whichever platform it is asked about, not only
   # the machine it runs on. Linux once had a single url, so arm64 Linux installed the x86_64 binary.
+  # macOS is Apple silicon only: the release builds no Intel Mac binary, so an Intel Mac is refused
+  # with that reason and builds from source instead (deploy/homebrew/README.md).
   on_macos do
+    depends_on arch: :arm64
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "aad610edc2437777dc0d580750e718d3165adcdf7b2cbe60ef9f3daf03bede93"
-    end
-    on_intel do
-      url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-apple-darwin.tar.gz"
-      sha256 "cd245a587758c821b3a684282464143a5c62d298fd220be7e917daef8a09cbbc"
+      sha256 "8cd88c7f28cbd2bbfb6c4b29c640c4dc45ba41137ee8d4fa15441b17187387f6"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "8c80053eb372a069dd22bc065e55c44bee24472624ca4491bfe0b46f900751d6"
+      sha256 "2f0e1562e30a768fe95a8a7bd36aca600ad074b0d633c28b38ef91b25c42f8f9"
     end
     on_intel do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "a9aa2fa20c938fd79fa3cdffe190d8bb943f9bb866d7caaaf5503506e3d81511"
+      sha256 "553f62a6857f8b39bcdeeee542807bb30ae1d31ed63c4674ea3b289232da2adf"
     end
   end
 
