@@ -3,8 +3,8 @@
 # release (version and sha256 filled in), so edit it here, never in the tap.
 # The app bundles the bot, the sandbox jobs and Electron's Node, so it needs no formula.
 cask "pacenote" do
-  version "0.5.24"
-  sha256 "904b202a7bb30c0032684acb054ccb0ded46db5643416e55a6cca322a161f384"
+  version "0.5.25"
+  sha256 "50ec057c3d6063c8bd0f8c545f95659eea56db53626c4ef483fa379765fda414"
 
   url "https://github.com/Ashon/pacenote/releases/download/v#{version}/Pacenote-v#{version}-macos-arm64.app.zip"
   name "Pacenote"
@@ -19,7 +19,8 @@ cask "pacenote" do
 
   # Tray-resident app: brew never quits a running instance on uninstall or upgrade, which would
   # leave the old process (and the bot it supervises) running from a deleted bundle. quit is
-  # upgrade-aware: brew reopens the app after the swap. Quitting lets the bot finish its requests.
+  # upgrade-aware: brew reopens the app after the swap if it quit within 10 seconds; an app that
+  # took longer (the bot finishing its requests) opens the new version itself once the bot stops.
   uninstall quit: "io.github.ashon.pacenote"
 
   # Config, run history and the sandbox allowlist live in ~/.pacenote (PACENOTE_HOME) and are kept.
