@@ -7,16 +7,16 @@
 class SupragnosisServer < Formula
   desc "Embedded MCP server that grows an ontology from working knowledge"
   homepage "https://supragnosis.dev/"
-  version "0.7.1"
+  version "0.7.2"
   license any_of: ["MIT", "Apache-2.0"]
 
   # Bottles, rendered here by update-tap.sh from the ones the release built (deploy/homebrew/README.md).
   # This formula only copies a prebuilt binary, but without a bottle Homebrew treats any formula as a
   # source build and refuses to install it without an up-to-date Xcode or Command Line Tools.
   bottle do
-    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.7.1"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "68d0185688a775261ad4370a26cfc15a92306251ca94a638884e49b513937eb8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a34af791640862d9943a7b66902a4f3806655733c66538bcb476050fad8d779e"
+    root_url "https://github.com/Ashon/supragnosis/releases/download/v0.7.2"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "dea7a0cf3fdba835c11186a9bf2fec28b57b5cf3c52c4369ee66c0ac3b1fa3e7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e1440ec5e456a52e8bdfb5b8386b9eacfaa1360f7568ffebaf3eab012b42454e"
   end
 
   # Dev channel: `brew install --HEAD supragnosis-server` builds current main from source
@@ -36,18 +36,18 @@ class SupragnosisServer < Formula
     depends_on arch: :arm64
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-apple-darwin.tar.gz"
-      sha256 "f817c6dee0c172a487a8fd7b586d2c469d493def58a39fbfe4b369e83e8050c8"
+      sha256 "11a06c794211d713b7d535994c64a51f60798f3504ddde9067ac20237c0465c9"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "bebdfe4e8eab86f6b1de438d4b39c13031475becc853030e11d39efa15e8b1f8"
+      sha256 "51b2f618c5b98cb071034a9a8aa52c31a5b07a1b1692806e10a059b0e4eefa23"
     end
     on_intel do
       url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/supragnosis-v#{version}-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "e87448c68f4732f2371614f72ea3ba698c86c99a622cc88b6a5e9b6b1964ab97"
+      sha256 "f52d1451324cdbf70c55c6f532314f3dc6c3b2fbe15d3e8f307448fbafe4bdb5"
     end
   end
 
