@@ -5,8 +5,8 @@
 # The shell attaches to (or spawns) the daemon from the supragnosis-server formula found on
 # PATH, so the app bundle carries no sidecar binary.
 cask "supragnosis" do
-  version "0.6.5"
-  sha256 "53e38fb02d7b3d9ce51d4156a229bae9a066f2f00f5092f05b80d8fe50852acd"
+  version "0.7.0"
+  sha256 "4b87df46c09b42dcfff7185145ed536b82adc56ff609dd2b8f1cde7926247d56"
 
   url "https://github.com/Ashon/supragnosis/releases/download/v#{version}/Supragnosis-v#{version}-macos-arm64.app.zip"
   name "Supragnosis"
@@ -22,6 +22,13 @@ cask "supragnosis" do
   depends_on :macos
 
   app "Supragnosis.app"
+
+  # The app finishes the first run itself: its Welcome page keeps the daemon running, connects the AI
+  # apps and downloads the search model (docs/onboarding.md Section 8).
+  caveats <<~EOS
+    Open Supragnosis to finish setting up:
+      open -a Supragnosis
+  EOS
 
   # Tray-resident app: brew never quits a running instance on uninstall/upgrade, which
   # leaves the old process serving from a deleted bundle. quit is upgrade-aware (brew
